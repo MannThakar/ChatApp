@@ -5,7 +5,7 @@ import Chat from "./Components/Chat";
 
 function App() {
   const cookies = new Cookies();
-  const [auth, setAuth] = useState(cookies.get('token'));
+  const [auth, setAuth] = useState(cookies.get("token"));
   const [room, setRoom] = useState(null);
   const user = useRef(null);
   const localStorageRoom = localStorage.getItem("room");
@@ -29,13 +29,44 @@ function App() {
       {localStorageRoom ? (
         <Chat room={room} />
       ) : (
-        <div>
-          <h1>Create a Room</h1>
-          <form onSubmit={handleFormSubmit}>
-            <label htmlFor="room">Room Name</label>
-            <input type="text" name="room" id="room" ref={user} />
-            <button type="submit">Create Room</button>
-          </form>
+        // <div>
+        //   <h1>Create a Room</h1>
+        //   <form onSubmit={handleFormSubmit}>
+        //     <label htmlFor="room">Room Name</label>
+        //     <input type="text" name="room" id="room" ref={user} />
+        //     <button type="submit">Create Room</button>
+        //   </form>
+        // </div>
+        <div className="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 flex items-center justify-center min-h-screen">
+          <div className="bg-white bg-opacity-90 p-8 rounded-lg shadow-lg text-center w-full max-w-md">
+            <h1 className="text-4xl font-bold mb-8 text-gray-800">
+              Create a Room
+            </h1>
+            <form onSubmit={handleFormSubmit} className="space-y-6">
+              <div>
+                <label
+                  htmlFor="room"
+                  className="block text-lg font-medium text-gray-700 mb-2"
+                >
+                  Room Name
+                </label>
+                <input
+                  type="text"
+                  name="room"
+                  id="room"
+                  ref={user}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full px-4 py-2 bg-pink-500 text-white font-semibold rounded-lg shadow-md hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-75"
+              >
+                Create Room
+              </button>
+            </form>
+          </div>
         </div>
       )}
     </>

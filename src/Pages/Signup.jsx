@@ -13,6 +13,7 @@ const Signup = () => {
       console.log(Google);
       const cookies = new Cookies();
       cookies.set("token", Google.user.refreshToken);
+      console.log("mcp")
     } catch (error) {
       console.log(error.message);
     }

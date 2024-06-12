@@ -10,7 +10,8 @@ import {
 } from "firebase/firestore";
 import { db, auth } from "../Config/Firebase";
 import EmojiPicker from "emoji-picker-react";
-import { Smiley, Exit } from "../icons";
+import { Smiley, Exit, Mic } from "../icons";
+import { AudioRecorder, useAudioRecorder } from "react-audio-voice-recorder";
 
 const Chat = ({ room }) => {
   const [messages, setMessages] = useState("");
@@ -37,7 +38,6 @@ const Chat = ({ room }) => {
         chatRef.current.scrollTop = chatRef.current.scrollHeight;
       }
     });
-
     return () => unsubscribe();
   }, []);
 
@@ -64,6 +64,15 @@ const Chat = ({ room }) => {
     console.log(emojiObject.emoji, 90);
     setMessages((prevMessages) => prevMessages + emojiObject.emoji);
     setShowEmojiPicker(false);
+  };
+
+  const recorderControls = useAudioRecorder();
+  const addAudioElement = (blob) => {
+    const url = URL.createObjectURL(blob);
+    const audio = document.createElement("audio");
+    audio.src = url;
+    audio.controls = true;
+    document.body.appendChild(audio);
   };
 
   return (
@@ -119,9 +128,7 @@ const Chat = ({ room }) => {
           />
           {showEmojiPicker && (
             <div className="absolute left-0 bottom-full mb-2">
-              <EmojiPicker
-                onEmojiClick={handleEmojiClick}
-              />
+              <EmojiPicker onEmojiClick={handleEmojiClick} />
             </div>
           )}
           <button
@@ -134,6 +141,15 @@ const Chat = ({ room }) => {
             }}
           >
             <img src="public/send.png" alt="Send" className="h-6 w-6" />
+            {/* <Mic className="h-6 text-gray-700 hover:bg-gray-200 hover:rounded-full" /> */}
+            {/* <Mic
+              className="h-6 text-gray-700 hover:bg-gray-200 hover:rounded-full cursor-pointer"
+            /> */}
+            <AudioRecorder
+              onRecordingComplete={(blob) => addAudioElement(blob)}
+              recorderControls={recorderControls}
+            />
+            <button onClick={recorderControls.stopRecording}>Stop recording</button>
           </button>
         </div>
       </form>
